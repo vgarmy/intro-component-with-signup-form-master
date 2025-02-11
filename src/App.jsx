@@ -75,7 +75,7 @@ function App() {
   };
 
   return (
-    <div className="w-full md:h-screen bg-[var(--Red)] flex items-center justify-center relative"
+    <div className="w-full md:h-screen bg-[var(--Red)] flex items-center justify-center relative" role="main"
       style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="w-full md:w-[1440px] h-full md:h-auto flex flex-col md:flex-row overflow-hidden items-center">
         <div className="w-full md:w-[50%] flex flex-col text-white">
