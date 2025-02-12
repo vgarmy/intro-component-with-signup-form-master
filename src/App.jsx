@@ -1,8 +1,20 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 import './App.css'
 import background from './assets/bg-intro-desktop.png'
+import mobilbackground from './assets/bg-intro-mobile.png'
 
 function App() {
+  const [bgImage, setBgImage] = useState(window.innerWidth < 768 ? mobilbackground : background);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setBgImage(window.innerWidth < 768 ? mobilbackground : background);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const [formValues, setFormValues] = useState({
     firstName: '',
     lastName: '',
@@ -75,8 +87,11 @@ function App() {
   };
 
   return (
-    <div className="w-full md:h-screen bg-[var(--Red)] flex items-center justify-center relative" role="main"
-      style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div
+      className="w-full md:h-screen bg-[var(--Red)] flex items-center justify-center relative"
+      role="main"
+      style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+    >
       <div className="w-full md:w-[1440px] h-full md:h-auto flex flex-col md:flex-row overflow-hidden items-center">
         <div className="w-full md:w-[50%] flex flex-col text-white">
           <h1 className="text-3xl md:text-5xl text-center md:text-left font-bold leading-10 md:leading-16 pl-0 pt-[100px] md:pt-0 md:pl-[170px] mb-[2.5rem]">
@@ -144,21 +159,21 @@ function App() {
                 {errors.email && <p className="text-[var(--Red)] text-xs font-normal text-right mt-2 mr-2 italic">{errors.email}</p>}
               </div>
               <div style={{ position: 'relative' }}>
-  <input
-    name="password"
-    type="password"
-    placeholder={placeholders.password}
-    className={`border ${errors.password ? 'border-[var(--Red)]' : 'border-gray-300'} rounded-md py-4 px-8 focus:outline-none focus:ring-2 focus:ring-[var(--Blue)] w-full`}
-    value={formValues.password}
-    onChange={handleChange}
-  />
-  {errors.password && (
-    <div className="absolute right-3 top-[calc(50%-12px)] -translate-y-1/2 bg-[var(--Red)] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-      !
-    </div>
-  )}
-  {errors.password && <p className="text-[var(--Red)] text-xs font-normal text-right mt-2 mr-2 italic">{errors.password}</p>}
-</div>
+                <input
+                  name="password"
+                  type="password"
+                  placeholder={placeholders.password}
+                  className={`border ${errors.password ? 'border-[var(--Red)]' : 'border-gray-300'} rounded-md py-4 px-8 focus:outline-none focus:ring-2 focus:ring-[var(--Blue)] w-full`}
+                  value={formValues.password}
+                  onChange={handleChange}
+                />
+                {errors.password && (
+                  <div className="absolute right-3 top-[calc(50%-12px)] -translate-y-1/2 bg-[var(--Red)] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                    !
+                  </div>
+                )}
+                {errors.password && <p className="text-[var(--Red)] text-xs font-normal text-right mt-2 mr-2 italic">{errors.password}</p>}
+              </div>
 
               <button className="bg-[var(--Green)] cursor-pointer font-normal text-white py-[1rem] rounded-md hover:bg-opacity-80 uppercase border border-[var(--Green)] border-b-2">
                 Claim your free trial
